@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic DateTimeBox - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../demo.css">
+	<script type="text/javascript" src="../../jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+	<script>
+	function transdate(endTime){
+var date=new Date();
+date.setFullYear(endTime.substring(6,9));
+date.setMonth(endTime.substring(0,1));
+date.setDate(endTime.substring(3,4));
+date.setHours(endTime.substring(11,12));
+date.setMinutes(endTime.substring(13,14));
+date.setSeconds(endTime.substring(16,17));
+return Date.parse(endTime)/1000;
+}
+$(document).ready(function(){
+  
+  $("#btn1").click(function(){
+    var begindate=$('#begindate').datebox('getValue');
+	var begindate=$('#enddate').datebox('getValue');
+	var begindate1=transdate(begindate);
+	
+	//alert(begindate);
+	alert(begindate1);
+  });
+});
+</script>
+</head>
+<body>
+	<h2>Basic DateTimeBox</h2>
+	<p>Click the calendar image on the right side.</p>
+	<div style="margin:20px 0;"></div>
+	<input class="easyui-datetimebox" name="begindate" id="begindate"  style=width:200px"> </input>
+	<input class="easyui-datetimebox" name="enddate" id="enddate"  style=width:200px"> </input>
+    <button id="btn1">submit</button>
+</body>
+</html>

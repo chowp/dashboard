@@ -1,0 +1,455 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>WiFi Union</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<!-- css -->
+<!-- <link href="css/bootstrap.min.css" rel="stylesheet" /> -->
+<link href="css/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="css/jcarousel.css" rel="stylesheet" />
+<link href="css/flexslider.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="themes/icon.css">
+<link rel="stylesheet" type="text/css" href="demo.css">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<!-- Theme skin -->
+<link href="skins/default.css" rel="stylesheet" />
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+ <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script> 
+ <script src="js/jquery.js"></script>
+<script src="js/jquery.easing.1.3.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.fancybox.pack.js"></script>
+<script src="js/jquery.fancybox-media.js"></script>
+<script src="js/google-code-prettify/prettify.js"></script>
+<script src="js/portfolio/jquery.quicksand.js"></script>
+<script src="js/portfolio/setting.js"></script>
+<script src="js/jquery.flexslider.js"></script>
+<script src="js/animate.js"></script>
+<script src="js/custom.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="js/highstock.js"></script>	
+	<script>
+	
+	function transdate(endTime){
+            return Date.parse(endTime)/1000;
+    }
+	 /*function  getganraoyuan(){
+	   	$.ajax({
+				//url:'test1.php?index='+index,  
+				url:'cghost2.php',
+				type:'get',
+				success:function(data) {
+						var data_html;
+						var  data1=eval(data);							
+			   for(var i=0;i<data1.length;i++){
+			       var info=data1[i];
+				if(i == 0)
+				{
+				data_html=data_html+"<option selected='selected' value="+info+ ">"+ info +"</option>" ;
+				queryData1(info);//好了  看的懂吗 恩   Info 就是对 Index的赋值
+				} 
+				else 
+				{
+				//data_html=data_html+"<option value="+info+ "onclick=\"danji(this)\">"+ info +"</option>" ;
+				data_html=data_html+"<option value="+info+ ">"+ info +"</option>" ;
+				}
+            }
+            $("#hostmac").html(data_html);
+					
+						}});
+	   	
+	  }*/
+	  function  getganraoyuan1(begindate,enddate){
+	   	$.ajax({
+				//url:'test1.php?index='+index,  
+				url:'cghost2.php',
+				type:'get',
+				success:function(data) {
+						var data_html;
+						var  data1=eval(data);							
+			   for(var i=0;i<data1.length;i++){
+			       var info=data1[i];
+				if(i == 0)
+				{
+				data_html=data_html+"<option selected='selected' value="+info+ ">"+ info +"</option>";
+				queryData1(info);//好了  看的懂吗 恩   Info 就是对 Index的赋值
+				} 
+				else 
+				{
+				//data_html=data_html+"<option value="+info+ "onclick=\"danji(this)\">"+ info +"</option>" ;
+				data_html=data_html+"<option value="+info+ ">"+ info +"</option>" ;
+				}
+            }
+            $("#hostmac").html(data_html);
+					
+						}});
+	   	
+	  }
+	  
+	  //单击hostmac select选择框时候的事件
+	  function danji(t){
+	     //alert(t.value);
+		 var aa=t.value;
+	     queryData1(aa);
+	  	
+	  }
+	
+	
+		
+   
+   //初始函数，设置定时器，定时取数据  应该是先获得干扰源吧这个随便 但是我开始默认显示一个啊
+   
+		$(document).ready(function(){
+	    
+			getganraoyuan1();
+			$('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	$('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 1,
+		minView: 0,
+		maxView: 1,
+		forceParse: 0
+    });
+	
+               });  
+			//queryData1();
+	    
+		
+		function x(){
+		var begindate=$("#begindate").val();
+		var enddate=$("#enddate").val();
+			//var begindate=$('#begindate').datetimebox("getValue");
+	             //var enddate=$('#enddate').datebox('getValue');
+	             var begindates=transdate(begindate);
+				 var enddates=transdate(enddate);
+				 var host=$("#hostmac").val();
+	             //var enddates=transdate(enddate);
+				 queryData2(host,begindates,enddates);
+		}
+	    
+	    //停止刷新
+	function queryData2(index,starttime,endtime) {
+		   var seriesOptions = [];
+           var names=[];
+		
+		//图表属性，不包含数据
+		   var options = {
+			  chart: {
+			    type:'area',
+				renderTo:'container'
+			    },
+			  rangeSelector:{
+				 selected:0,
+				 buttons: [{
+	                    type: 'minute',
+	                    count: 60,
+	                    text: '1h'
+                        }, {
+	                    type: 'day',
+	                    count: 1,
+	                    text: '1d'
+                        }, {
+	                    type: 'month',
+	                    count: 1,
+	                    text: '1m'
+                        }, {
+	                    type: 'ytd',
+	                    text: 'YTD'
+                        }, {
+	                    type: 'year',
+	                    count: 1,
+	                    text: '1y'
+                        }, {
+	                    type: 'all',
+	                    text: 'All'
+                        }]
+			    },
+              title:{
+				text:'wifi interference'
+				},
+              legend: {
+				    enabled:true,
+                    layout: 'horizontal',
+                    align: 'center',
+					verticalAlign: 'bottom',
+                    //verticalAlign: 'top',
+                    //y: 30,
+                    navigation: {
+                          activeColor: '#3E576F',
+                          animation: true,
+                          arrowSize: 12,
+                          inactiveColor: '#CCC',
+                    style: {
+                          fontWeight: 'bold',
+                          color: '#333',
+                          fontSize: '12px'
+						  }
+                    },
+				    itemHiddenStyle: {
+                         color: 'red'
+                    }
+               },
+                
+                plotOptions:{
+				    area:{
+					    stacking:'normal',
+						lineColor:'#666666',
+						lineWidth:1,
+						marker:{
+						    lineWidth:1,
+							lineColor:'#666666'
+						}
+					},
+				    series:{
+					  turboThreshold : 0
+					}
+				},
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/> ',
+                    valueDecimals: 2
+                },
+
+            series: seriesOptions
+   };
+	
+			
+		 
+	//document.write('document的类型是：',typeof(index)); 
+			$.ajax({                                                   
+				url:'test32.php',
+				type:'post',
+				data:"name="+index+"&starttime="+starttime+"&endtime="+endtime,//这就是我传入数据的地方
+				
+				dataType:"json",
+				success:function(data) {
+						//alert(data);
+						
+						$.each(data,function(i,n){
+						    
+							 seriesOptions[i] = 								 
+							{
+							    name: data[i][0][2],
+                                data: data[i]
+								};
+								
+							
+                        });
+                        Highcharts.setOptions({
+                        global: {
+                             timezoneOffset: -8*60 
+                               }
+                        });
+					  chart = new Highcharts.StockChart(options);	
+						}});
+						
+						
+						
+		 	}  
+		
+		
+	function queryData1(index) {
+		   var seriesOptions = [];
+           var names=[];
+		
+		//图表属性，不包含数据
+		   var options = {
+			  chart: {
+			    type:'area',
+				renderTo:'container'
+			    },
+			  rangeSelector:{
+				 selected:0,
+				 buttons: [{
+	                    type: 'minute',
+	                    count: 60,
+	                    text: '1h'
+                        }, {
+	                    type: 'day',
+	                    count: 1,
+	                    text: '1d'
+                        }, {
+	                    type: 'month',
+	                    count: 1,
+	                    text: '1m'
+                        }, {
+	                    type: 'ytd',
+	                    text: 'YTD'
+                        }, {
+	                    type: 'year',
+	                    count: 1,
+	                    text: '1y'
+                        }, {
+	                    type: 'all',
+	                    text: 'All'
+                        }]
+			    },
+              title:{
+				text:'wifi interference'
+				},
+              legend: {
+				    enabled:true,
+                    layout: 'horizontal',
+                    align: 'center',
+					verticalAlign: 'bottom',
+                    //verticalAlign: 'top',
+                    //y: 30,
+                    navigation: {
+                          activeColor: '#3E576F',
+                          animation: true,
+                          arrowSize: 12,
+                          inactiveColor: '#CCC',
+                    style: {
+                          fontWeight: 'bold',
+                          color: '#333',
+                          fontSize: '12px'
+						  }
+                    },
+				    itemHiddenStyle: {
+                         color: 'red'
+                    }
+               },
+                
+                plotOptions:{
+				 area:{
+					    stacking:'normal',
+						lineColor:'#666666',
+						lineWidth:1,
+						marker:{
+						    lineWidth:1,
+							lineColor:'#666666'
+						}
+					},
+				    series:{
+					  turboThreshold : 0
+					}
+				},
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/> ',
+                    valueDecimals: 2
+                },
+
+            series: seriesOptions
+   };
+	
+			
+		 
+	//document.write('document的类型是：',typeof(index)); 
+			$.ajax({                                                   
+				url:'test22.php',
+				type:'post',
+				data:"name="+index,//这就是我传入数据的地方
+				
+				dataType:"json",
+				success:function(data) {
+						//alert(data);
+						
+						$.each(data,function(i,n){
+						    
+							 seriesOptions[i] = 								 
+							{
+							    name: data[i][0][2],
+                                data: data[i]
+								};
+								
+							
+                        });
+                        Highcharts.setOptions({
+                        global: {
+                             timezoneOffset: -8*60 
+                               }
+                        }); 
+					  chart = new Highcharts.StockChart(options);	
+						}});
+						
+						
+						
+		 	}
+		
+	</script>
+	
+<body>
+<div id="wrapper">
+	<section class="callaction">
+					<div class="cta-text">
+						<h2>WIFI UNION </h2>
+						
+					</div>
+					 <div class="row">
+			<div class="col-lg-12">
+				<h4 class="heading">Interference</h4>
+				
+                      <select name="cars" onchange="danji(this);" id="hostmac">
+                      </select>
+			<div class="row show-grid">
+				<div class="input-group date form_datetime col-md-3" data-date="" data-date-format="dd MM yyyy  HH:ii p" data-link-field="dtp_input1">
+                   <input class="form-control" size="16" type="text" value="" id="begindate" />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> 
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span> 
+					 
+				
+                </div>
+				<div class="input-group date form_datetime col-md-3" data-date="" data-date-format="dd MM yyyy  HH:ii p" data-link-field="dtp_input1">
+                    <input class="form-control" size="16" type="text" value="" id="enddate" />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> 
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span> 
+				
+                </div>
+				 
+				</div>
+				  <button id="btn1" onclick="x();">submit</button>
+                
+ 
+				<div class="row">
+					<div id="container" style="min-width:800px;height:600px;"></div>
+				</div>
+			</div>
+		  </div>
+		  </section>
+</div>
+			
+	
+	
+	
+	
+<!-- Placed at the end of the document so the pages load faster -->
+
+
+</body>
+</html>
